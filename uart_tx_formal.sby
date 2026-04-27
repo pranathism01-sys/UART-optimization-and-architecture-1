@@ -1,0 +1,26 @@
+# =============================================================================
+#  uart_tx_formal.sby — SymbiYosys proof: TX FSM correctness
+#  Properties:
+#    1. TX FSM always returns to IDLE (liveness)
+#    2. No data corruption — output bit sequence matches input
+#    3. tx_out never changes mid-bit (stability)
+#  Usage: sby -f uart_tx_formal.sby
+# =============================================================================
+
+[options]
+mode bmc
+depth 30
+
+[engines]
+smtbmc boolector
+
+[script]
+read -formal ../rtl/baud_gen.v
+read -formal ../rtl/uart_tx.v
+read -formal formal_tb_tx.v
+prep -top formal_tb_tx
+
+[files]
+../rtl/baud_gen.v
+../rtl/uart_tx.v
+formal_tb_tx.v

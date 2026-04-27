@@ -1,0 +1,43 @@
+# =============================================================================
+#  synth.ys — Yosys Synthesis Script
+#  Target: Sky130 HD standard cell library
+#  Usage:  yosys synth.ys
+# =============================================================================
+
+# 1. Read RTL
+read_verilog -sv ../rtl/baud_gen.v
+read_verilog -sv ../rtl/uart_tx.v
+read_verilog -sv ../rtl/uart_rx.v
+read_verilog -sv ../rtl/uart_fifo.v
+read_verilog -sv ../rtl/uart_top.v
+
+# 2. Set top module
+hierarchy -check -top uart_top
+
+# 3. Generic synthesis passes
+proc
+opt
+fsm
+opt
+memory
+opt
+
+# 4. Technology mapping → Sky130 HD cells
+# (place sky130_fd_sc_hd__tt_025C_1v80.lib in syn/ directory)
+# dfflibmap -liberty sky130_fd_sc_hd__tt_025C_1v80.lib
+# abc -liberty sky130_fd_sc_hd__tt_025C_1v80.lib
+
+# For generic synthesis (before PDK is available):
+synth -top uart_top
+
+# 5. Final cleanup
+opt_clean -purge
+
+# 6. Report statistics
+stat
+
+# 7. Write netlist
+write_verilog -noattr uart_synth.v
+
+# 8. Write JSON for OpenROAD / nextpnr
+write_json uart_synth.json
