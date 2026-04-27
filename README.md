@@ -117,3 +117,6 @@ make sim FIFO_DEPTH=64 BAUD_RATE=10000000
 ---
 
 
+## License
+
+MIT License — see [LICENSE](LICENSE)
