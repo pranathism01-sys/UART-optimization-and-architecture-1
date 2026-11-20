@@ -1,7 +1,6 @@
 # UART High-Throughput IP Core
 
 **Design and Optimization of a High-Throughput, Low-Latency UART Architecture**  
-Bangalore Institute of Technology | Dept. of ECE | Major Project 2026
 
 [![Build](https://img.shields.io/badge/build-passing-brightgreen)]()
 [![Formal](https://img.shields.io/badge/formal-TBD-lightgrey)]()
